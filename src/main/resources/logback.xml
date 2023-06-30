@@ -1,0 +1,41 @@
+<configuration>
+    <springProperty scope="context" name="logging.home-log" source="logging.home-log" />
+    <springProperty scope="context" name="logging.log-directory" source="logging.log-directory" />
+    <springProperty scope="context" name="logging.logger-name" source="logging.logger-name" />
+    <springProperty scope="context" name="logging.root-level-error" source="logging.root-level-error" />
+    <springProperty scope="context" name="logging.root-level-info" source="logging.root-level-info" />
+
+    <property name="HOME_LOG"
+              value="src/main/java/ru/clevertec/NewsManager/logs/app.log"/>
+
+    <appender name="FILE-ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${HOME_LOG}</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>src/main/java/ru/clevertec/NewsManager/logs/app.log/app.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+
+            <maxFileSize>1MB</maxFileSize>
+
+            <totalSizeCap>1MB</totalSizeCap>
+
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+
+        <encoder>
+            <pattern>%d %p %c{1} [%t] %m%n</pattern>
+        </encoder>
+    </appender>
+
+    <logger name="ru.clevertec.NewsManager" level="debug" additivity="false">
+        <appender-ref ref="FILE-ROLLING"/>
+    </logger>
+
+    <root level="error">
+        <appender-ref ref="FILE-ROLLING"/>
+    </root>
+
+    <root level="info">
+        <appender-ref ref="FILE-ROLLING"/>
+    </root>
+
+</configuration>
